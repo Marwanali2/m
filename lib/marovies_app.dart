@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:marovies/features/home/presentation/views/home_view.dart';
+import 'package:marovies/splash_view.dart';
 
 class MaroviesApp extends StatelessWidget {
   const MaroviesApp({super.key});
@@ -16,7 +16,7 @@ class MaroviesApp extends StatelessWidget {
         useMaterial3: true,
         //textTheme:GoogleFonts.latoTextTheme(ThemeData.dark().textTheme),
       ),
-      home: const HomeView(),
+      home: const SplashView(),
     );
   }
 }
