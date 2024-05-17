@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marovies/core/utils/api_services.dart';
 
@@ -11,11 +11,12 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitialState());
   String userToken = '';
   String sessionId = '';
+  String accountId = '';
   Future getCreateRequestToken() async {
     emit(CreateRequestTokenLoadingState());
     try {
       var response = await ApiServices.dio.get(
-        '${ApiServices.baseUrl}/authentication/token/new?api_key=$apiKey',
+        '${ApiServices.baseUrl}/authentication/token/new?api_key=${ApiServices.apiKey}',
         options: Options(
           method: 'GET',
         ),
@@ -48,7 +49,7 @@ class AuthCubit extends Cubit<AuthState> {
         "request_token": userToken,
       });
       var response = await ApiServices.dio.request(
-        '${ApiServices.baseUrl}/authentication/token/validate_with_login?api_key=$apiKey',
+        '${ApiServices.baseUrl}/authentication/token/validate_with_login?api_key=${ApiServices.apiKey}',
         options: Options(
           method: 'POST',
           headers: headers,
@@ -78,7 +79,7 @@ class AuthCubit extends Cubit<AuthState> {
       var headers = {'Content-Type': 'application/json'};
       var data = json.encode({"request_token": userToken});
       var response = await ApiServices.dio.request(
-        '${ApiServices.baseUrl}/authentication/session/new?api_key=$apiKey',
+        '${ApiServices.baseUrl}/authentication/session/new?api_key=${ApiServices.apiKey}',
         options: Options(
           method: 'POST',
           headers: headers,
@@ -101,9 +102,38 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future getAccountId() async {
+    emit(GetAccountDetailsLoadingState());
+    try {
+      var response = await ApiServices.dio.request(
+        '${ApiServices.baseUrl}/account?session_id=$sessionId&api_key=${ApiServices.apiKey}',
+        options: Options(
+          method: 'GET',
+        ),
+      );
+      var responseBody = response.data;
+      if (response.statusCode == 200 || responseBody['success'] == true) {
+        accountId = responseBody['id'].toString();
+        emit(GetAccountDetailsSuccessState(accountId: accountId));
+      } else {
+        debugPrint(
+            'Failed to get account ID from get account details method with status code : ${response.statusCode}');
+        emit(GetAccountDetailsFailureState(
+            errorMessage: response.data.toString()));
+        throw Exception('Failed to implement get account details');
+      }
+    } catch (e) {
+      debugPrint('Failed to get account details , The Reason : $e');
+      emit(GetAccountDetailsFailureState(errorMessage: e.toString()));
+    }
+  }
+
+  @override
   void onChange(Change<AuthState> change) {
     // بتعرفني الكيوبتي اشتغل ولا لا بالترتيب مع الاستيت
     super.onChange(change);
-    print('Change : $change');
+    if (kDebugMode) {
+      print('Change : $change');
+    }
   }
 }

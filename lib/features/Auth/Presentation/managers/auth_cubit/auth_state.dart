@@ -46,3 +46,17 @@ class CreateSessionSucessState extends AuthState {
 
   CreateSessionSucessState({required this.sessionId});
 }
+
+// get account details
+class GetAccountDetailsLoadingState extends AuthState {}
+
+class GetAccountDetailsFailureState extends AuthState {
+  String? errorMessage;
+
+  GetAccountDetailsFailureState({required this.errorMessage});
+}
+
+class GetAccountDetailsSuccessState extends AuthState {
+final String accountId;
+  GetAccountDetailsSuccessState({required this.accountId});
+}
