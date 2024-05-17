@@ -1,22 +1,39 @@
-
 import 'package:flutter/material.dart';
-import 'package:marovies/splash_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:marovies/core/routing/app_router.dart';
+import 'package:marovies/core/routing/routes.dart';
+import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_cubit.dart';
 
 class MaroviesApp extends StatelessWidget {
-  const MaroviesApp({super.key});
+  final AppRouter appRouter;
+
+  const MaroviesApp({required this.appRouter, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Maro movies app',
-      theme: ThemeData.dark().copyWith(
-      //  scaffoldBackgroundColor: ColorStyles.kPrimaryColor,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // ignore: deprecated_member_use
-        useMaterial3: true,
-        //textTheme:GoogleFonts.latoTextTheme(ThemeData.dark().textTheme),
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => AuthCubit()),
+        ],
+        child: MaterialApp(
+          title: 'Marovies app',
+          theme: ThemeData.dark().copyWith(
+            //  scaffoldBackgroundColor: ColorStyles.kPrimaryColor,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            // ignore: deprecated_member_use
+            useMaterial3: true,
+            textTheme: GoogleFonts.ubuntuTextTheme(ThemeData.dark().textTheme),
+          ),
+          onGenerateRoute: appRouter.generateRoute,
+          initialRoute: Routes.kMain,
+        ),
       ),
-      home: const SplashView(),
     );
   }
 }

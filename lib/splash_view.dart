@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marovies/core/utils/assets_data.dart';
 import 'package:marovies/core/utils/colors.dart';
+import 'package:marovies/features/Auth/Presentation/views/login_screen.dart';
 import 'package:marovies/features/home/presentation/views/home_view.dart';
-
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -13,8 +13,8 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: Lottie.asset(AssetsData.splashLottie),
-      backgroundColor: ColorStyles.kPrimaryColor,
-      nextScreen: const HomeView(),
+      backgroundColor: AppColorStyles.kPrimaryColor,
+      nextScreen: const LoginView(),
       splashIconSize: 300,
       duration: 3000,
       splashTransition: SplashTransition.fadeTransition,

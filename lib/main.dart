@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marovies/core/routing/app_router.dart';
 import 'package:marovies/marovies_app.dart';
+import 'package:marovies/simple_bloc_observer.dart';
 void main() {
   // SystemChrome.setSystemUIOverlayStyle( // do run not hot  realod
   //    SystemUiOverlayStyle(
@@ -9,6 +12,8 @@ void main() {
   //     Brightness.light, // Set the status bar icon color to light
   //   ),
   // );
-  runApp(const MaroviesApp());
+  Bloc.observer = SimpleBlocObserver();
+  
+  runApp( MaroviesApp(appRouter: AppRouter(),));
 }
 
