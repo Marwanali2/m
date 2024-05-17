@@ -21,13 +21,21 @@ class LoginViewBody extends StatefulWidget {
 }
 
 class _LoginViewBodyState extends State<LoginViewBody> {
-    String? email;
+  String? email;
 
   String? password;
-
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  bool obscureText = true;
   GlobalKey<FormState> formKey = GlobalKey();
 
   bool isLoading = false;
+  @override
+  dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +71,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   children: [
                     const LottieAndTextSection(),
                     CustomTextField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
                       label: "Email",
                       hintText: "enter your email",
                       onChanged: (data) {
@@ -73,6 +83,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       height: MediaQuery.sizeOf(context).height * 0.04.h,
                     ),
                     CustomTextField(
+                      controller: passwordController,
+                      isPassword: true,
                       label: "Password",
                       hintText: "enter your password",
                       onChanged: (data) {

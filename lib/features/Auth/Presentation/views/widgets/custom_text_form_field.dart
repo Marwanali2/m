@@ -1,18 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// ignore: must_be_immutable
-class CustomTextField extends StatelessWidget {
-  CustomTextField({super.key, this.label, this.hintText, this.onChanged});
-  String? label;
-  String? hintText;
-  Function(String)? onChanged;
+class CustomTextField extends StatefulWidget {
+  CustomTextField({
+    Key? key,
+    this.label,
+    this.hintText,
+    this.onChanged,
+    this.controller,
+    this.isPassword = false,
+    this.keyboardType,
+  }) : super(key: key);
+
+  final String? label;
+  final String? hintText;
+  final Function(String)? onChanged;
+  final TextEditingController? controller;
+  final bool? isPassword;
+  final TextInputType ?keyboardType;
+
+  @override
+  _CustomTextFieldState createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: widget.keyboardType,
+      controller: widget.controller,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Required $label Field*';
+          return 'Required ${widget.label} Field*';
         }
         return null;
       },
@@ -28,13 +49,27 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20.r)),
         ),
         label: Text(
-          "$label",
+          "${widget.label}",
           style: const TextStyle(color: Colors.white),
         ),
-        hintText: "$hintText",
+        hintText: "${widget.hintText}",
         hintStyle: const TextStyle(color: Colors.white),
+        suffixIcon: widget.isPassword!
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+                icon: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.white,
+                ),
+              )
+            : null,
       ),
-      onChanged: onChanged,
+      onChanged: widget.onChanged,
+      obscureText: widget.isPassword! && _obscureText,
     );
   }
 }
