@@ -41,9 +41,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is LoginLoadingState) {
+        if (state is ValidateLoginLoadingState) {
           isLoading = true;
-        } else if (state is LoginSuccessState) {
+        } else if (state is ValidateLoginSuccessState) {
           // Navigator.pushReplacementNamed(context, AppRouter.kHomeView,
           //     arguments: email!);
           //  Navigator.of(context).push(
@@ -52,7 +52,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
           //   );
           isLoading = false;
           showSnackBar(context, 'Welcome', Colors.green);
-        } else if (state is LoginFailureState) {
+        } else if (state is ValidateLoginFailureState) {
           showSnackBar(context, '${state.errorMessage}', Colors.red);
           isLoading = false;
         }
@@ -95,11 +95,11 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       height: MediaQuery.sizeOf(context).height * 0.1.h,
                     ),
                     CustomButtonn(
-                      text: "Login",
+                      text: "ValidateLogin",
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          BlocProvider.of<AuthCubit>(context)
-                              .logIn(email: email!, password: password!);
+                          // BlocProvider.of<AuthCubit>(context)
+                          //     .logIn(email: email!, password: password!);
                         } else {}
                       },
                     ),

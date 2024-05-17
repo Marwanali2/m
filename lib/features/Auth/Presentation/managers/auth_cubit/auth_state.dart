@@ -2,7 +2,9 @@ abstract class AuthState {}
 
 class AuthInitialState extends AuthState {}
 
+// create request token
 class CreateRequestTokenLoadingState extends AuthState {}
+
 class FailureCreateRequestToken extends AuthState {
   String? errorMessage;
 
@@ -15,12 +17,32 @@ class SuccessCreateRequestToken extends AuthState {
   SuccessCreateRequestToken({required this.requestToken});
 }
 
-class LoginLoadingState extends AuthState {}
+// validate login
+class ValidateLoginLoadingState extends AuthState {}
 
-class LoginSuccessState extends AuthState {}
+class ValidateLoginSuccessState extends AuthState {
+  final String userToken;
 
-class LoginFailureState extends AuthState {
+  ValidateLoginSuccessState({required this.userToken});
+}
+
+class ValidateLoginFailureState extends AuthState {
   String? errorMessage;
 
-  LoginFailureState({required this.errorMessage});
+  ValidateLoginFailureState({required this.errorMessage});
+}
+
+// create session
+class CreateSessionLoadingState extends AuthState {}
+
+class CreateSessionFailureState extends AuthState {
+  String? errorMessage;
+
+  CreateSessionFailureState({required this.errorMessage});
+}
+
+class CreateSessionSucessState extends AuthState {
+  final String sessionId;
+
+  CreateSessionSucessState({required this.sessionId});
 }
