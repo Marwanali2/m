@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marovies/core/utils/colors.dart';
 import 'package:marovies/core/utils/global_variables.dart';
+import 'package:marovies/core/utils/shared_prefs.dart';
 import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_cubit.dart';
 import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_state.dart';
 import 'package:marovies/features/Auth/Presentation/views/widgets/custom_button.dart';
@@ -53,6 +54,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
         } else if (state is GetAccountDetailsSuccessState) {
           showSnackBar(context, 'Welcome', Colors.green);
           isLoading = false;
+
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -120,19 +122,38 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       text: "Login",
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          await BlocProvider.of<AuthCubit>(context)
-                              .getCreateRequestToken();
-                          // ignore: use_build_context_synchronously
-                          await BlocProvider.of<AuthCubit>(context)
-                              .validateLogIn(
-                                  userName: userName!,
-                                  userPassword: userPassword!);
+                          final isLogged =
+                              await context.read<AuthCubit>().isLoggedIn();
+                          if (isLogged) {
+                            final cachedUserToken =
+                                await SharedPrefsHelper.getUserToken();
+                            final cachedSessionId =
+                                await SharedPrefsHelper.getSessionId();
+                            Navigator.pushReplacement(
+                                // ignore: use_build_context_synchronously
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeView(
+                                          sessionId: cachedSessionId!,
+                                          userId: cachedUserToken!,
+                                        )));
+                          } else {
+                            await BlocProvider.of<AuthCubit>(context)
+                                .getCreateRequestToken();
+                            // ignore: use_build_context_synchronously
+                            await BlocProvider.of<AuthCubit>(context)
+                                .validateLogIn(
+                                    userName: userName!,
+                                    userPassword: userPassword!);
 
-                          // ignore: use_build_context_synchronously
-                          await BlocProvider.of<AuthCubit>(context).createSession(requestToken: GlobalVariables.userToken);
-                          // ignore: use_build_context_synchronously
-                          await BlocProvider.of<AuthCubit>(context).getAccountDetails();
-
+                            // ignore: use_build_context_synchronously
+                            await BlocProvider.of<AuthCubit>(context)
+                                .createSession(
+                                    requestToken: GlobalVariables.userToken);
+                            // ignore: use_build_context_synchronously
+                            await BlocProvider.of<AuthCubit>(context)
+                                .getAccountDetails();
+                          }
                         } else {
                           showSnackBar(
                               context, 'Please enter all fields', Colors.red);

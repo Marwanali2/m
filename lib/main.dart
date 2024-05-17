@@ -6,6 +6,7 @@ import 'package:marovies/core/utils/colors.dart';
 import 'package:marovies/marovies_app.dart';
 import 'package:marovies/simple_bloc_observer.dart';
 void main() {
+  
   SystemChrome.setSystemUIOverlayStyle( 
      const SystemUiOverlayStyle(
       statusBarColor: AppColorStyles

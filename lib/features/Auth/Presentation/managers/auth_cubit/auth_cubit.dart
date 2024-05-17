@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marovies/core/utils/api_services.dart';
 import 'package:marovies/core/utils/global_variables.dart';
+import 'package:marovies/core/utils/shared_prefs.dart';
 
 import 'auth_state.dart';
 
@@ -23,6 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
         GlobalVariables.userToken = responseBody['request_token'];
+        await SharedPrefsHelper.setUserToken(GlobalVariables.userToken);
         emit(SuccessCreateRequestToken(requestToken: GlobalVariables.userToken));
       } else {
         debugPrint(
@@ -58,6 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
       GlobalVariables.  userToken = responseBody['request_token'];
+     await SharedPrefsHelper.setUserToken(GlobalVariables.userToken); 
         emit(ValidateLoginSuccessState(userToken: GlobalVariables.userToken));
       } else {
         debugPrint(
@@ -88,6 +91,8 @@ class AuthCubit extends Cubit<AuthState> {
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
         GlobalVariables.sessionId = responseBody['session_id'];
+     await SharedPrefsHelper.setSessionId(GlobalVariables.sessionId); // Cache sessionId
+       
         emit(CreateSessionSucessState(sessionId: GlobalVariables.sessionId));
       } else {
         debugPrint(
@@ -113,6 +118,8 @@ class AuthCubit extends Cubit<AuthState> {
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
        GlobalVariables. accountId = responseBody['id'].toString();
+await SharedPrefsHelper.setAccountId(GlobalVariables.accountId); 
+
         emit(GetAccountDetailsSuccessState(accountId:GlobalVariables. accountId,sessionId:GlobalVariables. sessionId));
       } else {
         debugPrint(
@@ -126,6 +133,15 @@ class AuthCubit extends Cubit<AuthState> {
       emit(GetAccountDetailsFailureState(errorMessage: e.toString()));
     }
   }
+
+
+Future<bool> isLoggedIn() async {
+  final userToken = await SharedPrefsHelper.getUserToken();
+  final sessionId = await SharedPrefsHelper.getSessionId();
+
+  return userToken != null && sessionId != null;
+}
+
 
   @override
   void onChange(Change<AuthState> change) {
