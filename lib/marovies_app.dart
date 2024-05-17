@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:marovies/core/Dependency_injection/service_locator.dart';
 import 'package:marovies/core/routing/app_router.dart';
 import 'package:marovies/core/routing/routes.dart';
 import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_cubit.dart';
+import 'package:marovies/features/home/data/repos/home_repo_impl.dart';
+import 'package:marovies/features/home/presentation/views/managers/featured_books_cubit/now_playing_movies.dart_cubit.dart';
 
 class MaroviesApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -20,6 +23,11 @@ class MaroviesApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AuthCubit()),
+          BlocProvider(
+            create: (context) => NowPlayingMoviesCubit(
+              getIt.get<HomeRepoImpl>(),
+            )..getNowPlayingMovies(),
+          ),
         ],
         child: MaterialApp(
           title: 'Marovies app',

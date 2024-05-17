@@ -19,7 +19,6 @@ import 'package:marovies/features/Auth/Presentation/views/widgets/custom_text_fo
 import 'package:marovies/features/Auth/Presentation/views/widgets/dont_have_account_and_signup.dart';
 import 'package:marovies/features/Auth/Presentation/views/widgets/lottie_and_text_section.dart';
 import 'package:marovies/features/Auth/Presentation/views/widgets/showSnackBar.dart';
-import 'package:marovies/features/home/presentation/views/home_view.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -179,10 +178,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           final isLogged =
                               await context.read<AuthCubit>().isLoggedIn();
                           if (isLogged) {
-                            final cachedUserToken =
-                                await SharedPrefsHelper.getUserToken();
-                            final cachedSessionId =
-                                await SharedPrefsHelper.getSessionId();
+                            // final cachedUserToken =
+                            //     await SharedPrefsHelper.getUserToken();
+                            // final cachedSessionId =
+                            //     await SharedPrefsHelper.getSessionId();
                                  Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
                                 return FadeInRight(

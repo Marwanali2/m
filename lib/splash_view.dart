@@ -19,6 +19,7 @@ class SplashView extends StatefulWidget {
 
 class _SplashViewState extends State<SplashView> {
   // Use the AuthCubit to check for cached credentials and dispatch actions
+  // ignore: unused_field
   late final AuthCubit _authCubit;
   String? userToken = '';
   String? sessionId = '';
