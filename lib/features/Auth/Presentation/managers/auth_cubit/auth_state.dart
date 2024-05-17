@@ -42,7 +42,7 @@ class CreateSessionFailureState extends AuthState {
 }
 
 class CreateSessionSucessState extends AuthState {
-  final String sessionId;
+   String? sessionId;
 
   CreateSessionSucessState({required this.sessionId});
 }
@@ -58,5 +58,6 @@ class GetAccountDetailsFailureState extends AuthState {
 
 class GetAccountDetailsSuccessState extends AuthState {
 final String accountId;
-  GetAccountDetailsSuccessState({required this.accountId});
+final String sessionId;
+  GetAccountDetailsSuccessState({required this.accountId,required this.sessionId});
 }

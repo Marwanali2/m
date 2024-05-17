@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  final String userId, sessionId;
+  const HomeView({required this.sessionId,required this.userId,super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.red,
       body: Center(
-        child: Text('Home View'),
+        child: Text('$sessionId , $userId'),
       ),
     );
   }

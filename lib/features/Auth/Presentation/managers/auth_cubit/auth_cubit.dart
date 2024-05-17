@@ -4,14 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marovies/core/utils/api_services.dart';
+import 'package:marovies/core/utils/global_variables.dart';
 
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitialState());
-  String userToken = '';
-  String sessionId = '';
-  String accountId = '';
+
   Future getCreateRequestToken() async {
     emit(CreateRequestTokenLoadingState());
     try {
@@ -23,8 +22,8 @@ class AuthCubit extends Cubit<AuthState> {
       );
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
-        userToken = responseBody['request_token'];
-        emit(SuccessCreateRequestToken(requestToken: userToken));
+        GlobalVariables.userToken = responseBody['request_token'];
+        emit(SuccessCreateRequestToken(requestToken: GlobalVariables.userToken));
       } else {
         debugPrint(
             'Failed to get token from create request token method with status code : ${response.statusCode}');
@@ -46,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
       var data = json.encode({
         "username": userName,
         "password": userPassword,
-        "request_token": userToken,
+        "request_token":GlobalVariables. userToken,
       });
       var response = await ApiServices.dio.request(
         '${ApiServices.baseUrl}/authentication/token/validate_with_login?api_key=${ApiServices.apiKey}',
@@ -58,8 +57,8 @@ class AuthCubit extends Cubit<AuthState> {
       );
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
-        userToken = responseBody['request_token'];
-        emit(ValidateLoginSuccessState(userToken: userToken));
+      GlobalVariables.  userToken = responseBody['request_token'];
+        emit(ValidateLoginSuccessState(userToken: GlobalVariables.userToken));
       } else {
         debugPrint(
             'Failed to validate login method with status code : ${response.statusCode}');
@@ -77,7 +76,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(CreateSessionLoadingState());
     try {
       var headers = {'Content-Type': 'application/json'};
-      var data = json.encode({"request_token": userToken});
+      var data = json.encode({"request_token": GlobalVariables.userToken});
       var response = await ApiServices.dio.request(
         '${ApiServices.baseUrl}/authentication/session/new?api_key=${ApiServices.apiKey}',
         options: Options(
@@ -88,8 +87,8 @@ class AuthCubit extends Cubit<AuthState> {
       );
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
-        sessionId = responseBody['session_id'];
-        emit(CreateSessionSucessState(sessionId: sessionId));
+        GlobalVariables.sessionId = responseBody['session_id'];
+        emit(CreateSessionSucessState(sessionId: GlobalVariables.sessionId));
       } else {
         debugPrint(
             'Failed to create session method with status code : ${response.statusCode}');
@@ -102,19 +101,19 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future getAccountId() async {
+  Future getAccountDetails() async {
     emit(GetAccountDetailsLoadingState());
     try {
       var response = await ApiServices.dio.request(
-        '${ApiServices.baseUrl}/account?session_id=$sessionId&api_key=${ApiServices.apiKey}',
+        '${ApiServices.baseUrl}/account?session_id=${GlobalVariables.sessionId}&api_key=${ApiServices.apiKey}',
         options: Options(
           method: 'GET',
         ),
       );
       var responseBody = response.data;
       if (response.statusCode == 200 || responseBody['success'] == true) {
-        accountId = responseBody['id'].toString();
-        emit(GetAccountDetailsSuccessState(accountId: accountId));
+       GlobalVariables. accountId = responseBody['id'].toString();
+        emit(GetAccountDetailsSuccessState(accountId:GlobalVariables. accountId,sessionId:GlobalVariables. sessionId));
       } else {
         debugPrint(
             'Failed to get account ID from get account details method with status code : ${response.statusCode}');
