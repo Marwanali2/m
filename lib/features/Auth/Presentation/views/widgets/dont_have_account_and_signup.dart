@@ -14,7 +14,7 @@ class DontHaveAccountAndSignUp extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
+         Text(
           "don't have an account ?",
           style: AppTextStyles.textStyle14Normal,
         ),

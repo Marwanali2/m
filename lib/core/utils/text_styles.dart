@@ -4,32 +4,32 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:marovies/core/utils/colors.dart';
 
 abstract class AppTextStyles {
-  static const textStyle8Normal = TextStyle(
-    fontSize: 8,
+  static final textStyle8Normal = TextStyle(
+    fontSize: 8.sp,
     fontWeight: FontWeight.normal,
   );
 
-  static const textStyle12Normal = TextStyle(
-    fontSize: 12,
+  static final textStyle12Normal = TextStyle(
+    fontSize: 12.sp,
     fontWeight: FontWeight.normal,
   );
 
-  static const textStyle14Normal = TextStyle(
-    fontSize: 14,
+  static final textStyle14Normal = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.normal,
   );
 
-  static const textStyle16Normal = TextStyle(
-    fontSize: 16,
+  static final textStyle16Normal = TextStyle(
+    fontSize: 16.sp,
     fontWeight: FontWeight.normal, //bold
   );
 
-  static const textStyle24Normal = TextStyle(
-    fontSize: 24,
+  static final textStyle24Normal = TextStyle(
+    fontSize: 24.sp,
     fontWeight: FontWeight.normal, //medium
   );
-  static const textStyle25Normal = TextStyle(
-    fontSize: 25,
+  static final textStyle25Normal = TextStyle(
+    fontSize: 25.sp,
     fontWeight: FontWeight.normal, //medium
     color: AppColorStyles.kBlackColor,
   );

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,9 +20,9 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   // Use the AuthCubit to check for cached credentials and dispatch actions
   late final AuthCubit _authCubit;
-   String? userToken = '';
-   String? sessionId='';
-   String?userId='';
+  String? userToken = '';
+  String? sessionId = '';
+  String? userId = '';
   @override
   void initState() {
     super.initState();
@@ -39,9 +40,9 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<bool> _checkCachedCredentials() async {
-     userToken = await SharedPrefsHelper.getUserToken();
-     sessionId = await SharedPrefsHelper.getSessionId();
-     userId= await SharedPrefsHelper.getAccountId();
+    userToken = await SharedPrefsHelper.getUserToken();
+    sessionId = await SharedPrefsHelper.getSessionId();
+    userId = await SharedPrefsHelper.getAccountId();
     // Consider adding a check for accountId as well if relevant
 
     // Additional logic for advanced scenarios (e.g., token expiration) can be included here
@@ -52,7 +53,11 @@ class _SplashViewState extends State<SplashView> {
     // Consider using a Navigator pushReplacement for a smoother transition
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) =>  HomeView(userId: userId!,sessionId: sessionId!,)),
+      MaterialPageRoute(
+          builder: (context) => HomeView(
+                userId: userId!,
+                sessionId: sessionId!,
+              )),
     );
   }
 
@@ -61,7 +66,11 @@ class _SplashViewState extends State<SplashView> {
     return AnimatedSplashScreen(
       splash: Lottie.asset(AssetsData.splashLottie),
       backgroundColor: AppColorStyles.kPrimaryColor,
-      nextScreen: const LoginView(), // Placeholder until we determine login status
+      nextScreen: BounceInDown(
+        curve: Curves.bounceInOut,
+          duration: const Duration(seconds: 2),
+          child:
+              const LoginView()), // Placeholder until we determine login status
       splashIconSize: 300,
       duration: 3000,
       splashTransition: SplashTransition.fadeTransition,

@@ -1,10 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:lottie/lottie.dart';
+import 'package:marovies/bottom_nav_bar.dart';
+import 'package:marovies/core/utils/assets_data.dart';
 import 'package:marovies/core/utils/colors.dart';
 import 'package:marovies/core/utils/global_variables.dart';
 import 'package:marovies/core/utils/shared_prefs.dart';
+import 'package:marovies/core/utils/text_styles.dart';
+
 import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_cubit.dart';
 import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_state.dart';
 import 'package:marovies/features/Auth/Presentation/views/widgets/custom_button.dart';
@@ -14,6 +21,7 @@ import 'package:marovies/features/Auth/Presentation/views/widgets/lottie_and_tex
 import 'package:marovies/features/Auth/Presentation/views/widgets/showSnackBar.dart';
 import 'package:marovies/features/home/presentation/views/home_view.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:animate_do/animate_do.dart';
 
 class LoginViewBody extends StatefulWidget {
   const LoginViewBody({super.key});
@@ -57,11 +65,19 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                  builder: (context) => HomeView(
-                        sessionId: state.sessionId,
-                        userId: state.accountId,
+                MaterialPageRoute(
+                  builder: (context) => FadeInLeft(
+                        duration: const Duration(seconds: 1),
+                        child: const BottomNavBar()
                       )));
+              // MaterialPageRoute(
+              //     builder: (context) => FadeInLeft(
+              //           duration: const Duration(seconds: 1),
+              //           child: HomeView(
+              //             sessionId: state.sessionId,
+              //             userId: state.accountId,
+              //           ),
+              //         )));
         } else if (state is FailureCreateRequestToken ||
             state is ValidateLoginFailureState ||
             state is CreateSessionFailureState ||
@@ -73,6 +89,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
       },
       builder: (context, state) {
         return ModalProgressHUD(
+          progressIndicator: Lottie.asset(
+            AssetsData.loadingLottie,
+            animate: true,
+            height: 200,
+            width: 200,
+          ),
           inAsyncCall: isLoading,
           opacity: 0,
           child: Scaffold(
@@ -83,6 +105,38 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 key: formKey,
                 child: ListView(
                   children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: TextButton(
+                          onPressed: () {
+                             Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return FadeInRight(
+                                  duration: const Duration(seconds: 1),
+                                  child: const BottomNavBar(),
+                                );
+                              },
+                            ));
+                            // Navigator.push(context, MaterialPageRoute(
+                            //   builder: (context) {
+                            //     return FadeInRight(
+                            //       duration: const Duration(seconds: 1),
+                            //       child: const HomeView(
+                            //         userId: '',
+                            //         sessionId: '',
+                            //       ),
+                            //     );
+                            //   },
+                            // ));
+                          },
+                          child: Text(
+                            'Skip',
+                            style: AppTextStyles.textStyle16Normal.copyWith(
+                              color: AppColorStyles.kSemiCyan,
+                              fontSize: 20.sp,
+                            ),
+                          )),
+                    ),
                     const LottieAndTextSection(),
                     CustomTextField(
                       controller: userNameController,
@@ -129,15 +183,24 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                 await SharedPrefsHelper.getUserToken();
                             final cachedSessionId =
                                 await SharedPrefsHelper.getSessionId();
-                            Navigator.pushReplacement(
-                                // ignore: use_build_context_synchronously
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeView(
-                                          sessionId: cachedSessionId!,
-                                          userId: cachedUserToken!,
-                                        )));
+                                 Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return FadeInRight(
+                                  duration: const Duration(seconds: 1),
+                                  child: const BottomNavBar(),
+                                );
+                              },
+                            ));
+                            // Navigator.pushReplacement(
+                            //     // ignore: use_build_context_synchronously
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => HomeView(
+                            //               sessionId: cachedSessionId!,
+                            //               userId: cachedUserToken!,
+                            //             )));
                           } else {
+                            // ignore: use_build_context_synchronously
                             await BlocProvider.of<AuthCubit>(context)
                                 .getCreateRequestToken();
                             // ignore: use_build_context_synchronously
