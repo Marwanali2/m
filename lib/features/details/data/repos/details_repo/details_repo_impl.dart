@@ -22,7 +22,7 @@ class DetailsRepoImpl implements DetailsRepo{
 var data = json.encode({
   "media_type": "movie",
   "media_id": HomeView.mainMovieId,
-  "watchlist": true
+  "watchlist": true,
 });
 var response = await ApiServices.dio.request(
   '${ApiServices.baseUrl}/account/21273599/watchlist?session_id=${GlobalVariables.sessionId}&api_key=${ApiServices.apiKey}',
@@ -56,4 +56,50 @@ var responseBody = response.data;
       }
     }
   }
+
+  @override
+  Future<Either<Failure, void>> removeFromWatchList() async{
+   try{
+    var headers = {
+  'Content-Type': 'application/json'
+};
+var data = json.encode({
+  "media_type": "movie",
+  "media_id": HomeView.mainMovieId,
+  "watchlist": false,
+});
+var response = await ApiServices.dio.request(
+  '${ApiServices.baseUrl}/account/21273599/watchlist?session_id=${GlobalVariables.sessionId}&api_key=${ApiServices.apiKey}',
+  options: Options(
+    method: 'POST',
+    headers: headers,
+  ),
+  data: data,
+);
+var responseBody = response.data;
+      if (response.statusCode == 200 || responseBody['success'] == true) {
+        debugPrint('Added to watchlist');
+      } else {
+        debugPrint(
+            'Failed to add to watch list method with status code : ${response.statusCode}');
+        throw Exception('Failed toadd to watch list method');
+      }
+      return right(null);
+   }
+   on Exception catch (e) {
+      if (e is DioError) {
+        return Left(
+          ServerFailure.fromDioError(e),
+        );
+      } else {
+        return left(
+          ServerFailure(
+            errorMessage: e.toString(),
+          ),
+        );
+      }
+    }
+  }
+
+
 }

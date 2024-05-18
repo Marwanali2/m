@@ -20,7 +20,7 @@ class DetailsView extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                const DetailsViewAppbar(),
+                 DetailsViewAppbar(movieId: movieId),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.03.h),
                 Image.network(
                   'https://image.tmdb.org/t/p/w500$posterPath',

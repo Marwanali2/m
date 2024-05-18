@@ -10,6 +10,9 @@ import 'package:marovies/features/details/data/repos/details_repo/details_repo_i
 import 'package:marovies/features/details/presentation/managers/add_to_watch_list_cubit.dart/add_to_watch_list_cubit.dart';
 import 'package:marovies/features/home/data/repos/home_repo_impl.dart';
 import 'package:marovies/features/home/presentation/views/managers/now_playing_movies_cubit/now_playing_movies_cubit.dart';
+import 'package:marovies/features/watch_list/data/repos/watch_list_repo/watch_list_repo_impl.dart';
+import 'package:marovies/features/watch_list/presentation/managers/watch_list_cubit/watch_list_movies_cubit.dart';
+import 'package:marovies/features/watch_list/presentation/views/managers/remove_from_watch_list_cubit.dart/remove_from_watch_list_cubit.dart';
 
 class MaroviesApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -30,9 +33,19 @@ class MaroviesApp extends StatelessWidget {
               getIt.get<HomeRepoImpl>(),
             )..getNowPlayingMovies(),
           ),
-           BlocProvider(create: (context) => AddToWatchListMoviesCubit(
-             getIt.get<DetailsRepoImpl>(),
-           )),
+          BlocProvider(
+              create: (context) => AddToWatchListMoviesCubit(
+                    getIt.get<DetailsRepoImpl>(),
+                  )),
+          BlocProvider(
+              create: (context) => RemoveFromWatchListMoviesCubit(
+                    getIt.get<DetailsRepoImpl>(),
+                  )),
+          BlocProvider(
+            create: (context) => WatchListMoviesCubit(
+              getIt.get<WatchListRepoImpl>(),
+            )..getWatchListMovies(),
+          ),
         ],
         child: MaterialApp(
           title: 'Marovies app',

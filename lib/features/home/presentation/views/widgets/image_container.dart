@@ -16,7 +16,7 @@ class ImageContainer extends StatelessWidget {
       width: MediaQuery.sizeOf(context).width * 0.5.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
-        color: AppColorStyles.kPrimaryColor,
+        color: AppColorStyles.kSemiBlue,
         image: DecorationImage(
           fit: BoxFit.cover,
           image: NetworkImage('https://image.tmdb.org/t/p/w500$imageUrl'),

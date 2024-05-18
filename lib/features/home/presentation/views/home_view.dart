@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.02.h,
               ),
+            
               BlocBuilder<NowPlayingMoviesCubit, NowPlayingMoviesState>(
                 builder: (context, state) {
                   if (state is NowPlayingMoviesSuccess) {
@@ -81,6 +82,7 @@ class _HomeViewState extends State<HomeView> {
                   }
                 },
               ),
+            
             ],
           ),
         ),

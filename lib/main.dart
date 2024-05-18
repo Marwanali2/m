@@ -6,18 +6,18 @@ import 'package:marovies/core/routing/app_router.dart';
 import 'package:marovies/core/utils/colors.dart';
 import 'package:marovies/marovies_app.dart';
 import 'package:marovies/simple_bloc_observer.dart';
+
 void main() {
   setupServiceLocator();
-  SystemChrome.setSystemUIOverlayStyle( 
-     const SystemUiOverlayStyle(
-      statusBarColor: AppColorStyles
-          .kPrimaryColor, 
-      statusBarIconBrightness:
-      Brightness.light, 
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: AppColorStyles.kPrimaryColor,
+      statusBarIconBrightness: Brightness.light,
     ),
   );
   Bloc.observer = SimpleBlocObserver();
-  
-  runApp( MaroviesApp(appRouter: AppRouter(),));
-}
 
+  runApp(MaroviesApp(
+    appRouter: AppRouter(),
+  ));
+}

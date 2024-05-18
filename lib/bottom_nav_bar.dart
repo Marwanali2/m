@@ -50,7 +50,9 @@ class BottomNavBar extends StatelessWidget {
               sessionId: GlobalVariables.sessionId,
               userId: GlobalVariables.accountId,
             ),
-            const WatchListView(),
+            const WatchListView(
+              
+            ),
           ],
         ),
       ),

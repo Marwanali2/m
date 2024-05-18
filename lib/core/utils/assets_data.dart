@@ -9,4 +9,6 @@ class AssetsData {
   static const loadingLottie = "$lottieFolderPath/loading_lottie.json";
   // HOME VIEW
   static const String errorLottie = "$lottieFolderPath/error_lottie.json";
+  // WATCH LIST VIEW
+  static const String emptyWatchListLottie= "$lottieFolderPath/empty_lottie.json";
 }
