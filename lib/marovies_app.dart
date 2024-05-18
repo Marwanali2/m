@@ -6,8 +6,10 @@ import 'package:marovies/core/Dependency_injection/service_locator.dart';
 import 'package:marovies/core/routing/app_router.dart';
 import 'package:marovies/core/routing/routes.dart';
 import 'package:marovies/features/Auth/Presentation/managers/auth_cubit/auth_cubit.dart';
+import 'package:marovies/features/details/data/repos/details_repo/details_repo_impl.dart';
+import 'package:marovies/features/details/presentation/managers/add_to_watch_list_cubit.dart/add_to_watch_list_cubit.dart';
 import 'package:marovies/features/home/data/repos/home_repo_impl.dart';
-import 'package:marovies/features/home/presentation/views/managers/featured_books_cubit/now_playing_movies.dart_cubit.dart';
+import 'package:marovies/features/home/presentation/views/managers/now_playing_movies_cubit/now_playing_movies_cubit.dart';
 
 class MaroviesApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -28,6 +30,9 @@ class MaroviesApp extends StatelessWidget {
               getIt.get<HomeRepoImpl>(),
             )..getNowPlayingMovies(),
           ),
+           BlocProvider(create: (context) => AddToWatchListMoviesCubit(
+             getIt.get<DetailsRepoImpl>(),
+           )),
         ],
         child: MaterialApp(
           title: 'Marovies app',

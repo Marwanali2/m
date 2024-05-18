@@ -1,4 +1,4 @@
-part of 'now_playing_movies.dart_cubit.dart';
+part of 'now_playing_movies_cubit.dart';
 abstract class NowPlayingMoviesState extends Equatable {
   const NowPlayingMoviesState();
 
