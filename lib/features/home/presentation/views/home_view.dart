@@ -17,7 +17,7 @@ class HomeView extends StatefulWidget {
   @override
   State<HomeView> createState() => _HomeViewState();
 }
-
+/* 
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
@@ -90,3 +90,103 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
+ */
+
+class _HomeViewState extends State<HomeView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    context.read<NowPlayingMoviesCubit>().getNowPlayingMovies();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent &&
+        !context.read<NowPlayingMoviesCubit>().isFetching) {
+      context.read<NowPlayingMoviesCubit>().loadMoreMovies();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColorStyles.kPrimaryColor,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: ListView(
+            controller: _scrollController,
+            children: [
+              const HomeAppBarAndText(),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.02.h,
+              ),
+              BlocBuilder<NowPlayingMoviesCubit, NowPlayingMoviesState>(
+                builder: (context, state) {
+                  if (state is NowPlayingMoviesSuccess) {
+                    return Column(
+                      children: [
+                        GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 0.72,
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: List.generate(
+                            state.nowPlayingMoviesList.length,
+                            (index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    HomeView.mainMovieId = state.nowPlayingMoviesList[index].id;
+                                  });
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return DetailsView(
+                                        movieId: state.nowPlayingMoviesList[index].id,
+                                        overview: state.nowPlayingMoviesList[index].overview,
+                                        posterPath: state.nowPlayingMoviesList[index].posterPath,
+                                        title: state.nowPlayingMoviesList[index].title,
+                                      );
+                                    },
+                                  ));
+                                },
+                                child: ImageContainer(
+                                  imageUrl: state.nowPlayingMoviesList[index].posterPath,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        if (state.isLoadingMore)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                      ],
+                    );
+                  } else if (state is NowPlayingMoviesFailure) {
+                    return const FailureLottieWidget();
+                  } else {
+                    return const ShimmerLoadingImageContainer();
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
