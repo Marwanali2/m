@@ -61,6 +61,11 @@ class _WatchListDetailsViewAppbarState
               // remove from watch list
               BlocProvider.of<RemoveFromWatchListMoviesCubit>(context)
                   .removeFromWatchList();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BottomNavBar(),
+                  ));
             },
             icon: Icon(
               Icons.bookmark_outlined,

@@ -6,7 +6,9 @@ import 'package:marovies/features/home/presentation/views/home_view.dart';
 import 'package:marovies/features/watch_list/presentation/views/watch_list_view.dart';
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key});
+  final String? sessionId;
+  final String? userId;
+  const BottomNavBar({super.key, this.sessionId, this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +48,12 @@ class BottomNavBar extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
+           
             HomeView(
               sessionId: GlobalVariables.sessionId,
               userId: GlobalVariables.accountId,
             ),
-            const WatchListView(
-              
-            ),
+            const WatchListView(),
           ],
         ),
       ),

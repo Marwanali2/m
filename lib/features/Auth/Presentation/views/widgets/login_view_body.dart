@@ -57,7 +57,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             state is ValidateLoginSuccessState ||
             state is CreateSessionSucessState) {
           isLoading = false;
-          //showSnackBar(context, 'Welcome', Colors.green);
+         
         } else if (state is GetAccountDetailsSuccessState) {
           showSnackBar(context, 'Welcome', Colors.green);
           isLoading = false;
@@ -116,17 +116,6 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                 );
                               },
                             ));
-                            // Navigator.push(context, MaterialPageRoute(
-                            //   builder: (context) {
-                            //     return FadeInRight(
-                            //       duration: const Duration(seconds: 1),
-                            //       child: const HomeView(
-                            //         userId: '',
-                            //         sessionId: '',
-                            //       ),
-                            //     );
-                            //   },
-                            // ));
                           },
                           child: Text(
                             'Skip',
@@ -178,15 +167,16 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           final isLogged =
                               await context.read<AuthCubit>().isLoggedIn();
                           if (isLogged) {
-                            // final cachedUserToken =
-                            //     await SharedPrefsHelper.getUserToken();
-                            // final cachedSessionId =
-                            //     await SharedPrefsHelper.getSessionId();
+                            final cachedUserToken =
+                                await SharedPrefsHelper.getUserToken();
+                            final cachedSessionId =
+                                await SharedPrefsHelper.getSessionId();
+                                 // ignore: use_build_context_synchronously
                                  Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
                                 return FadeInRight(
                                   duration: const Duration(seconds: 1),
-                                  child: const BottomNavBar(),
+                                  child:  BottomNavBar(sessionId: cachedSessionId,userId: cachedUserToken,),
                                 );
                               },
                             ));
