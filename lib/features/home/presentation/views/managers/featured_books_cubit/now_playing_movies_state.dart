@@ -10,6 +10,7 @@ class NowPlayingMoviesInitial extends NowPlayingMoviesState {}
 
 class NowPlayingMoviesLoading extends NowPlayingMoviesState {}
 
+
 class NowPlayingMoviesSuccess extends NowPlayingMoviesState {
   final List<Result> nowPlayingMoviesList;
 

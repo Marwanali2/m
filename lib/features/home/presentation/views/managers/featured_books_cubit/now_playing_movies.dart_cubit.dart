@@ -21,3 +21,8 @@ class NowPlayingMoviesCubit extends Cubit<NowPlayingMoviesState> {
     );
   }
 }
+
+
+
+
+

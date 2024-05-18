@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marovies/core/utils/colors.dart';
+import 'package:marovies/features/details/presentation/views/details_view.dart';
 import 'package:marovies/features/home/presentation/views/managers/featured_books_cubit/now_playing_movies.dart_cubit.dart';
 import 'package:marovies/features/home/presentation/views/widgets/failure_lottie_widget.dart';
 import 'package:marovies/features/home/presentation/views/widgets/home_appbar_and_text.dart';
@@ -39,9 +40,24 @@ class HomeView extends StatelessWidget {
                       children: List.generate(
                         state.nowPlayingMoviesList.length,
                         (index) {
-                          return ImageContainer(
-                            imageUrl:
-                                state.nowPlayingMoviesList[index].posterPath,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return DetailsView(
+                                    movieId: state.nowPlayingMoviesList[index].id,
+                                    overview: state.nowPlayingMoviesList[index].overview,
+                                    posterPath: state.nowPlayingMoviesList[index].posterPath,
+                                    title: state.nowPlayingMoviesList[index].title,
+                                  );
+                                },)
+                              );
+                            },
+                            child: ImageContainer(
+                              imageUrl:
+                                  state.nowPlayingMoviesList[index].posterPath,
+                            ),
                           );
                         },
                       ),

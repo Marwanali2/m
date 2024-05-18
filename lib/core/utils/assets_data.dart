@@ -7,4 +7,6 @@ class AssetsData {
   static const String popcornSvg = "$svgFolderPath/popcorn.svg";
   static const String loginLottie = "$lottieFolderPath/login_lottie.json";
   static const loadingLottie = "$lottieFolderPath/loading_lottie.json";
+  // HOME VIEW
+  static const String errorLottie = "$lottieFolderPath/error_lottie.json";
 }
