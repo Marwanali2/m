@@ -20,7 +20,7 @@ class WatchListRepoImpl implements WatchListRepo {
       List<String> moviesPosterList = [];
       List<MovieWatchListResult> watchListMoviesList = [];
       var response = await ApiServices.dio.request(
-        '${ApiServices.baseUrl}/account/24717925/watchlist/movies?session_id=$cachedSessionId&api_key=${ApiServices.apiKey}',
+        '${ApiServices.baseUrl}/account/24717925/watchlist/movies?session_id=${GlobalVariables.sessionId}&api_key=${ApiServices.apiKey}',
         options: Options(
           method: 'GET',
         ),

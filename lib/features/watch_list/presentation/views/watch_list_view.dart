@@ -23,13 +23,13 @@ class WatchListView extends StatefulWidget {
 class _WatchListViewState extends State<WatchListView> {
   @override
   void initState() {
-    GlobalVariables.sessionId == '' ? null : fetchWatchListMovies();
+    GlobalVariables.sessionId == '' ?   null:fetchWatchListMovies();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    //BlocProvider.of<WatchListMoviesCubit>(context).getWatchListMovies();
+   // BlocProvider.of<WatchListMoviesCubit>(context).getWatchListMovies();
 
     return SafeArea(
       child: Scaffold(
@@ -59,7 +59,7 @@ class _WatchListViewState extends State<WatchListView> {
                         Text(
                           'Please login to view your watch list',
                           style: AppTextStyles.textStyle16Normal,
-                        ),
+                        )
                       ],
                     )
                   : BlocBuilder<WatchListMoviesCubit, WatchListMoviesState>(
