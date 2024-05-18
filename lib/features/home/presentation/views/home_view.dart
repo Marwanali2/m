@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:marovies/core/utils/colors.dart';
-import 'package:marovies/core/widgets/custom_loading_widget.dart';
 import 'package:marovies/features/home/presentation/views/managers/featured_books_cubit/now_playing_movies.dart_cubit.dart';
+import 'package:marovies/features/home/presentation/views/widgets/failure_lottie_widget.dart';
 import 'package:marovies/features/home/presentation/views/widgets/home_appbar_and_text.dart';
 import 'package:marovies/features/home/presentation/views/widgets/image_container.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:marovies/features/home/presentation/views/widgets/shimmer_loading_image_container.dart';
 
 class HomeView extends StatelessWidget {
   final String userId, sessionId;
@@ -48,35 +47,9 @@ class HomeView extends StatelessWidget {
                       ),
                     );
                   } else if (state is NowPlayingMoviesFailure) {
-                    return Center(
-                      child: Lottie.network(
-                        'https://lottie.host/1dc629d7-2756-4837-a15a-ab9a02133a8d/gAbfD1ZfoM.json',
-                        width: 100.w,
-                        height: 100.h,
-                      ),
-                    );
+                    return const FailureLottieWidget();
                   } else {
-                    return GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 0.72,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: List.generate(
-                        4,
-                        (index) {
-                          return Shimmer.fromColors(
-                            baseColor: AppColorStyles.kPrimaryColor,
-                            highlightColor: AppColorStyles.kSemiBlue,
-                            child: ImageContainer(
-                              imageUrl: '',
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                    return const ShimmerLoadingImageContainer();
                   }
                 },
               ),
