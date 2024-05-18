@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marovies/core/utils/colors.dart';
 import 'package:marovies/core/utils/global_variables.dart';
 import 'package:marovies/features/home/presentation/views/home_view.dart';
+import 'package:marovies/features/watch_list/presentation/views/watch_list_view.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({super.key});
@@ -49,7 +50,7 @@ class BottomNavBar extends StatelessWidget {
               sessionId: GlobalVariables.sessionId,
               userId: GlobalVariables.accountId,
             ),
-            const Center(child: Text('Settings')),
+            const WatchListView(),
           ],
         ),
       ),
