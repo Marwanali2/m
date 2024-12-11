@@ -169,8 +169,8 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                         if (state.isLoadingMore)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: CircularProgressIndicator(),
                           ),
                       ],
